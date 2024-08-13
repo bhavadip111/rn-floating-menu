@@ -1,162 +1,117 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  Platform,
+  ViewStyle,
+  TextStyle,
+  StyleProp,
 } from "react-native";
-import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/AntDesign";
 import * as Animatable from "react-native-animatable";
 
-export default function FloatingMenu(props: {
-  actionMenus?: Array<any>;
-  subActionButtonStyle?: object;
-  backShadow?: Boolean;
-  subActionTextStyle?: object;
-  backShadowStyle?: object;
-  mainActionButtonStyle?: object;
-  subActionContainerStyle?: object;
-  mainActionButtonIcon?: string;
-}) {
-  const {
-    actionMenus = [],
-    subActionButtonStyle,
-    backShadow = false,
-    subActionTextStyle,
-    backShadowStyle,
-    mainActionButtonStyle,
-    subActionContainerStyle,
-    mainActionButtonIcon,
-  } = props;
+// Define types for props
+interface ActionMenu {
+  title?: string;
+  icon?: string;
+  handler: () => void;
+}
 
-  const [isExpanded, setIsExpanded] = useState(false);
+interface FloatingMenuProps {
+  actionMenus?: ActionMenu[];
+  subActionButtonStyle?: StyleProp<ViewStyle>;
+  backShadow?: boolean;
+  subActionTextStyle?: StyleProp<TextStyle>;
+  backShadowStyle?: StyleProp<ViewStyle>;
+  mainActionButtonStyle?: StyleProp<ViewStyle>;
+  subActionContainerStyle?: StyleProp<ViewStyle>;
+  mainActionButtonIcon?: string;
+}
+
+export default function FloatingMenu({
+  actionMenus = [],
+  subActionButtonStyle,
+  backShadow = true,
+  subActionTextStyle,
+  backShadowStyle,
+  mainActionButtonStyle,
+  subActionContainerStyle,
+  mainActionButtonIcon,
+}: FloatingMenuProps) {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const refs = useRef<any[]>([]);
 
   const toggleMenu = () => {
-    if (isExpanded) {
-      handleOverlayPress();
-    } else {
-      setIsExpanded((prevState) => !prevState);
-    }
-  };
-
-  const handleOverlayPress = () => {
-    if (isExpanded) {
-      if (backShadow === true) {
-        animateBGClose();
-        closeMenu();
-        animateMenuItemsClose();
-      } else {
-        closeMenu();
-        animateMenuItemsClose();
-      }
-    }
+    setIsExpanded((prevState) => !prevState);
   };
 
   const closeMenu = () => {
-    setTimeout(() => {
-      setIsExpanded(false);
-    }, 500);
+    setIsExpanded(false);
   };
 
-  const animateMenuItemsClose = () => {
-    for (let i = 0; i < actionMenus.length; i++) {
-      const ref = `menuItem${i}`;
-      this[ref].fadeOutDown(300 + i * 200);
+  const animateMenuItems = (isExpanding: boolean) => {
+    refs.current.forEach((ref, index) => {
+      if (ref) {
+        const animation = isExpanding ? "fadeInUp" : "fadeOutDown";
+        ref[animation](500 + index * 100);
+      }
+    });
+  };
+
+  const animateBG = (isExpanding: boolean) => {
+    if (refs.current[0]) {
+      const animation = isExpanding ? "zoomIn" : "zoomOut";
+      refs.current;
     }
-  };
-
-  const animateBG = () => {
-    this["flotingBG"].zoomIn(250);
-  };
-
-  const animateBGClose = () => {
-    this["flotingBG"].zoomOut(250);
   };
 
   useEffect(() => {
     if (isExpanded) {
-      if (backShadow) {
-        animateBG();
-        animateMenuItems();
-      } else {
-        animateMenuItems();
-      }
+      animateBG(true);
+      animateMenuItems(true);
+    } else {
+      animateBG(false);
+      animateMenuItems(false);
     }
   }, [isExpanded]);
-
-  const animateMenuItems = () => {
-    for (let i = 0; i < actionMenus.length; i++) {
-      const ref = `menuItem${i}`;
-      this[ref].fadeInUp(500 + i * 100);
-    }
-  };
 
   const renderSubActions = () => {
     return (
       <>
-        <View
-          style={
-            subActionContainerStyle
-              ? subActionContainerStyle
-              : [styles.subActionsContainer]
-          }
-        >
-          {actionMenus.map((action: any, index: any) => (
+        {backShadow && (
+          <Animatable.View
+            ref={(ref) => (refs.current[0] = ref)}
+            style={backShadowStyle || styles.BackGroundView}
+          />
+        )}
+        <View style={subActionContainerStyle || styles.subActionsContainer}>
+          {actionMenus.map((action, index) => (
             <Animatable.View
               key={index}
-              ref={(ref) => (this[`menuItem${index}`] = ref)}
+              ref={(ref) => (refs.current[index + 1] = ref)}
               style={styles.subActionButtonContent}
             >
               <TouchableOpacity
                 onPress={() => {
-                  if (backShadow) {
-                    closeMenu();
-                    animateMenuItemsClose();
-                    animateBGClose();
-                    action.handler();
-                  } else {
-                    closeMenu();
-                    animateMenuItemsClose();
-                    action.handler();
-                  }
+                  closeMenu();
+                  action.handler();
                 }}
                 style={styles.subActionTextView}
               >
                 {action.title && (
-                  <Text
-                    style={
-                      subActionTextStyle
-                        ? subActionTextStyle
-                        : styles.subActionText
-                    }
-                  >
+                  <Text style={subActionTextStyle || styles.subActionText}>
                     {action.title}
                   </Text>
                 )}
               </TouchableOpacity>
               {action.icon && (
                 <TouchableOpacity
-                  key={index}
-                  style={
-                    subActionButtonStyle
-                      ? { ...subActionButtonStyle }
-                      : {
-                          ...styles.subActionButton,
-                        }
-                  }
-                  onPress={(e) => {
-                    if (backShadow) {
-                      closeMenu();
-                      animateMenuItemsClose();
-                      animateBGClose();
-                      action.handler();
-                    } else {
-                      closeMenu();
-                      animateMenuItemsClose();
-                      action.handler();
-                    }
+                  style={subActionButtonStyle || styles.subActionButton}
+                  onPress={() => {
+                    closeMenu();
+                    action.handler();
                   }}
                 >
                   <Icon name={action.icon} size={24} color="white" />
@@ -165,15 +120,10 @@ export default function FloatingMenu(props: {
             </Animatable.View>
           ))}
         </View>
-        {backShadow && (
-          <Animatable.View
-            ref={(ref) => (this[`flotingBG`] = ref)}
-            style={backShadowStyle ? backShadowStyle : [styles.BackGroundView]}
-          />
-        )}
       </>
     );
   };
+
   return (
     <View
       style={{
@@ -195,17 +145,13 @@ export default function FloatingMenu(props: {
         }}
       >
         <TouchableOpacity
-          style={
-            mainActionButtonStyle
-              ? mainActionButtonStyle
-              : styles.mainActionButton
-          }
-          onPress={() => toggleMenu()}
+          style={mainActionButtonStyle || styles.mainActionButton}
+          onPress={toggleMenu}
         >
           <Icon
             color={"white"}
             size={30}
-            name={mainActionButtonIcon ? mainActionButtonIcon : "plus"}
+            name={mainActionButtonIcon || "plus"}
           />
         </TouchableOpacity>
       </View>
