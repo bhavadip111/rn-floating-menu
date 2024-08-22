@@ -12,6 +12,14 @@ npm install rn-floating-menu
 yarn add rn-floating-menu
 ```
 
+## Demo Video
+
+Watch the demo video to see how the `react-native-floating-menu` works:
+
+## Demo Video
+
+Watch the demo video by this link: [Link to Demo Video](https://vimeo.com/1001475616)
+
 ## Usage
 
 ```js
