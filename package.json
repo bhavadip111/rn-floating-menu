@@ -1,8 +1,9 @@
 {
   "name": "rn-floating-menu",
-  "version": "1.0.3",
-  "description": "react native floating menu ",
-  "main": "index.ts",
+  "version": "1.0.7",
+  "description": "react native floating menu",
+  "main": "dist/FloatingMenu.js",
+  "types": "dist/FloatingMenu.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
@@ -21,9 +22,8 @@
     "bottom-menu"
   ],
   "peerDependencies": {
+    "react-native": "^0.72.4",
     "react": "^18.2.0",
-    "react-native": "^0.74.5",
-    "react-native-animatable": "^1.4.0",
     "react-native-vector-icons": "^10.1.0"
   },
   "author": "Bhavadip",
@@ -33,15 +33,18 @@
   },
   "homepage": "https://github.com/bhavadip111/rn-floating-menu",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-native": "^0.74.5",
-    "react-native-animatable": "^1.4.0",
-    "react-native-vector-icons": "^10.1.0",
-    "typescript": "^5.5.4"
+    "react-native-animatable": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-native": "^0.73.0",
-    "@types/react-native-vector-icons": "^6.4.18"
-  }
+    "@types/react-native-vector-icons": "^6.4.18",
+    "typescript": "^5.5.4"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ]
 }

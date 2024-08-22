@@ -41,6 +41,7 @@ export default function FloatingMenu({
   mainActionButtonIcon,
 }: FloatingMenuProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   const refs = useRef<any[]>([]);
 
   const toggleMenu = () => {
@@ -82,7 +83,7 @@ export default function FloatingMenu({
       <>
         {backShadow && (
           <Animatable.View
-            ref={(ref) => (refs.current[0] = ref)}
+            ref={(ref: any) => (refs.current[0] = ref)}
             style={backShadowStyle || styles.BackGroundView}
           />
         )}
@@ -90,7 +91,7 @@ export default function FloatingMenu({
           {actionMenus.map((action, index) => (
             <Animatable.View
               key={index}
-              ref={(ref) => (refs.current[index + 1] = ref)}
+              ref={(ref: any) => (refs.current[index + 1] = ref)}
               style={styles.subActionButtonContent}
             >
               <TouchableOpacity

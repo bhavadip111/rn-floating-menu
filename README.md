@@ -10,54 +10,75 @@ Install the package using npm or yarn:
 npm install rn-floating-menu
 # or
 yarn add rn-floating-menu
+```
 
-Usage
+## Usage
 
-import { FloatingMenu } from 'rn-floating-menu';
+```js
+import { FloatingMenu } from "rn-floating-menu";
 
 const actionMenus = [
-{
-title: 'Menu1',
-icon: 'menu1_icon',
-handler: () => console.log('Menu1'),
-},
-{
-title: 'Menu2',
-icon: 'menu2_icon',
-handler: () => console.log('Menu2'),
-},
+  {
+    title: "Menu1",
+    icon: "menu1_icon",
+    handler: () => console.log("Menu1"),
+  },
+  {
+    title: "Menu2",
+    icon: "menu2_icon",
+    handler: () => console.log("Menu2"),
+  },
 ];
 
 <FloatingMenu actionMenus={actionMenus} />;
+```
 
 ## Example
 
+```js
 <FloatingMenu
-actionMenus={actionMenus}
-subActionButtonStyle={{ backgroundColor: 'red' }}
-backShadow={true}
-subActionTextStyle={{ color: 'yellow' }}
-backShadowStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
-mainActionButtonStyle={{ backgroundColor: 'green' }}
-subActionContainerStyle={{ bottom: 100, right: 50 }}
+  actionMenus={actionMenus}
+  subActionButtonStyle={{ backgroundColor: "red" }}
+  backShadow={true}
+  subActionTextStyle={{ color: "yellow" }}
+  backShadowStyle={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+  mainActionButtonStyle={{ backgroundColor: "green" }}
+  subActionContainerStyle={{ bottom: 100, right: 50 }}
 />
+```
 
-Props
+## Props
 
-actionMenus (required): An array of menu items to display. Each item should be an object with the following properties:
+| Prop                      | Type      | Required | Description                                                                                           |
+| ------------------------- | --------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| `actionMenus`             | `array`   | Yes      | An array of menu items to display. Each item should be an object with `title`, `icon`, and `handler`. |
+| `subActionButtonStyle`    | `object`  | No       | Custom styles for the submenu buttons.                                                                |
+| `backShadow`              | `boolean` | No       | Enables/disables the background shadow animation when the menu expands. Default is `false`.           |
+| `subActionTextStyle`      | `object`  | No       | Custom styles for the submenu text.                                                                   |
+| `backShadowStyle`         | `object`  | No       | Custom styles for the background shadow.                                                              |
+| `mainActionButtonStyle`   | `object`  | No       | Custom styles for the main action button.                                                             |
+| `subActionContainerStyle` | `object`  | No       | Custom styles for the submenu container.                                                              |
 
-title: (string) The title text to display for the menu item.
-icon: (string) The name of the icon to display for the menu item. Ensure that the icon name is compatible with the react-native-vector-icons library.
-handler: (function) The function to be executed when the menu item is pressed.
-subActionButtonStyle (optional): An object containing custom styles for the submenu buttons. Use this prop to override the default styles.
+### `actionMenus` Example
 
-backShadow (optional): A boolean to enable or disable the background shadow animation when the menu expands. Default is false.
+Each object in the `actionMenus` array should have the following properties:
 
-subActionTextStyle (optional): An object containing custom styles for the submenu text. Use this prop to override the default text styles.
+- **`title`**: (string) The title text to display for the menu item.
+- **`icon`**: (string) The name of the icon to display for the menu item. Ensure that the icon name is compatible with the `react-native-vector-icons` library.
+- **`handler`**: (function) The function to be executed when the menu item is pressed.
 
-backShadowStyle (optional): An object containing custom styles for the background shadow. Use this prop to customize the appearance of the background shadow.
+### Customization Example
 
-mainActionButtonStyle (optional): An object containing custom styles for the main action button. Use this prop to override the default button styles.
+You can customize various parts of the floating menu using the optional props. Here’s an example showing how to customize the appearance of the submenu and the background shadow:
 
-subActionContainerStyle (optional): An object containing custom styles for the submenu container. Use this prop to customize the layout of the submenu items.
+```js
+<FloatingMenu
+  actionMenus={actionMenus}
+  subActionButtonStyle={{ backgroundColor: "red" }}
+  backShadow={true}
+  subActionTextStyle={{ color: "yellow" }}
+  backShadowStyle={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+  mainActionButtonStyle={{ backgroundColor: "green" }}
+  subActionContainerStyle={{ bottom: 100, right: 50 }}
+/>
 ```
