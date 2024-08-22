@@ -1,6 +1,6 @@
 {
   "name": "rn-floating-menu",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "react native floating menu",
   "main": "dist/FloatingMenu.js",
   "types": "dist/FloatingMenu.d.ts",
@@ -19,7 +19,22 @@
     "floating-menu",
     "rn-floating",
     "menu",
-    "bottom-menu"
+    "bottom-menu",
+    "Floating Menu",
+    "React Native UI",
+    "Mobile Menu",
+    "React Native Components",
+    "Animated Menu",
+    "Floating Action Menu",
+    "React Native Navigation",
+    "Bottom Navigation Menu",
+    "Mobile UI Kit",
+    "React Native Floating Action Button",
+    "React Native Floating Widget",
+    "Menu Component",
+    "React Native UI Kit",
+    "Custom Menu",
+    "Menu Animation"
   ],
   "peerDependencies": {
     "react-native": "^0.72.4",
